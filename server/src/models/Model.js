@@ -1,6 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-const ObjectionModel = require("objection").Model;
-const ValidationError = require("objection").ValidationError;
+const { Model: ObjectionModel, ValidationError } = require("objection");
 
 /**
  * Abstract model for Transporter ORM
@@ -24,7 +23,7 @@ class Model extends ObjectionModel {
     const existingRecord = await this.constructor.query().where(property, this[property]).first();
 
     if (existingRecord && existingRecord.id !== this.id) {
-      let errorObject = {};
+      const errorObject = {};
       errorObject[property] = [{ keyword: "unique", message: "already in use" }];
       throw new ValidationError({ type: "ModelValidation", status: 400, data: errorObject });
     }
